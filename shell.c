@@ -11,12 +11,12 @@
  *
  * Return: Always (0)
  */
-int main(int ac, char **av, char **env)
+int main(int ac __attribute__((unused)), char **av, char **env)
 {
 	char *prompt_str = "$ ";
 	char **args = NULL;
 	unsigned char exit = 0;
-	int exec_status;
+        int exec_status __attribute__((unused));
 	struct stat statbuf;
 
 	while (!exit)
