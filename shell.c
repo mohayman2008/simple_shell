@@ -18,7 +18,6 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 	unsigned char exit = 0;
         int exec_status __attribute__((unused));
 	struct stat statbuf;
-	pid_t child;
 
 	while (!exit)
 	{
