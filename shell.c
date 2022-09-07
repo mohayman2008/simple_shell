@@ -13,16 +13,18 @@
  */
 int main(int ac __attribute__((unused)), char **av, char **env)
 {
-	char *prompt_str = "$ ";
+	char *prompt_str = "#cisfun$ ";
 	char **args = NULL;
 	unsigned char exit = 0;
         int exec_status __attribute__((unused));
 	struct stat statbuf;
+	pid_t child;
 
 	while (!exit)
 	{
 		printf("%s", prompt_str);
 		args = read_prompt();
+
 		if (!args || !*args)
 			break;
 		if (!stat(args[0], &statbuf))
