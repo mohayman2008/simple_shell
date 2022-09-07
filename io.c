@@ -82,7 +82,7 @@ char **get_tokens(char *str, char *delim)
 char **read_prompt()
 {
 	char **args = NULL, *buf = NULL;
-	size_t size;
+	size_t size = 0, i;
 	ssize_t read_count;
 
 	read_count = getline(&buf, &size, stdin);

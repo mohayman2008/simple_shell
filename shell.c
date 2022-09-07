@@ -2,6 +2,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <errno.h>
 
 /**
  * main - simple shell
@@ -21,17 +22,16 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 
 	while (!exit)
 	{
-		printf("%s", prompt_str);
+		fprintf(stdout, "%s", prompt_str);
 		args = read_prompt();
 
 		if (!args || !*args)
 			break;
-		if (!stat(args[0], &statbuf))
+		if (!stat(args[0], &statbuf) && args[1] == NULL)
 			exec_status = exec(args[0], args, env);
 		else
 			fprintf(stderr, "%s: No such file or directory\n", av[0]);
+		free_str_array(args);
 	}
-
-	free_str_array(args);
 	return (0);
 }
