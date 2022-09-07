@@ -17,7 +17,7 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 	char *prompt_str = "#cisfun$ ";
 	char **args = NULL;
 	unsigned char exit = 0;
-        int exec_status __attribute__((unused));
+	int exec_status __attribute__((unused));
 	struct stat statbuf;
 
 	while (!exit)
@@ -30,7 +30,7 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 		if (!stat(args[0], &statbuf) && args[1] == NULL)
 			exec_status = exec(args[0], args, env);
 		else
-			fprintf(stderr, "%s: No such file or directory\n", av[0]);
+			fprintf(stdout, "%s: No such file or directory\n", av[0]);
 		free_str_array(args);
 	}
 	return (0);
