@@ -76,6 +76,7 @@ char **get_tokens(char *str, char *delim)
 /**
  * read_prompt - reads a line and returns a NULL terminated vector of
  *		the string tokens in it
+ * @read_count: Buffer to store the return value of getline()
  *
  * Return: the vector of the tokens or NULL on error
  */
