@@ -12,25 +12,35 @@
  *
  * Return: Always (0)
  */
-int main(int ac __attribute__((unused)), char **av, char **env)
+int main(int ac __attribute__((unused)), char **av __attribute__((unused)),
+	char **env __attribute__((unused)))
 {
 	char *prompt_str = "#cisfun$ ";
 	char **args = NULL;
 	unsigned char exit = 0;
 	int exec_status __attribute__((unused));
-	struct stat statbuf;
+	ssize_t read_count = 0;
+/*	struct stat statbuf;*/
 
 	while (!exit)
 	{
-		fprintf(stdout, "%s", prompt_str);
-		args = read_prompt();
+/*		printf("%s", prompt_str);*/
+		write(STDOUT_FILENO, prompt_str, 10);
+		args = read_prompt(&read_count);
 
-		if (!args || !*args)
+		if (read_count < 0 || !args || !*args)
+		{
+			free_str_array(args);
 			break;
-		if (!stat(args[0], &statbuf) && args[1] == NULL)
-			exec_status = exec(args[0], args, env);
-		else
-			fprintf(stdout, "%s: No such file or directory\n", av[0]);
+		}
+/*		if (!stat(args[0], &statbuf))*/
+/*		{*/
+			exec_status = exec(args[0], args, environ);
+			if (exec_status < 0)
+				perror(av[0]);
+/*		}*/
+/*		else*/
+			/*	fprintf(stdout, "%s: No such file or directory\n", av[0]);*/
 		free_str_array(args);
 	}
 	return (0);

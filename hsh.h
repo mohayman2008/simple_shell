@@ -13,7 +13,7 @@ extern char **environ;
 
 int char_cmp(char c, char *c_set);
 char **get_tokens(char *str, char *delim);
-char **read_prompt();
+char **read_prompt(ssize_t *read_count);
 
 int exec(char *filepath, char **av, char **env);
 

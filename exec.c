@@ -19,7 +19,7 @@ int exec(char *filepath, char **av, char **env)
 	child = fork();
 	if (child == -1)
 		return (-1);
-	if (!child)
+	if (child == 0)
 	{
 		exec_status = execve(filepath, av, env);
 		return (exec_status);

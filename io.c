@@ -79,16 +79,13 @@ char **get_tokens(char *str, char *delim)
  *
  * Return: the vector of the tokens or NULL on error
  */
-char **read_prompt()
+char **read_prompt(ssize_t *read_count)
 {
 	char **args = NULL, *buf = NULL;
 	size_t size = 0;
-	ssize_t read_count;
 
-	read_count = getline(&buf, &size, stdin);
-	if (read_count < 0 && errno)
-		perror("Reading line error");
-	else if (read_count >= 0)
+	*read_count = getline(&buf, &size, stdin);
+	if (*read_count >= 0)
 		args = get_tokens(buf, DELIM);
 
 	if (buf)
