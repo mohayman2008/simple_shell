@@ -13,30 +13,29 @@
  *
  * Return: Always (0)
  */
-int main(int ac __attribute__((unused)), char **av __attribute__((unused)),
-	char **env __attribute__((unused)))
+int main(int ac, char **av, char **env __attribute__((unused)))
 {
 	char *prompt_str = "#cisfun$ ";
 	char **args = NULL, **str_itr;
 	unsigned char running = 1;
-
-	int exec_status __attribute__((unused));
+	int exec_status;
 	ssize_t read_count = 0;
 /*	struct stat statbuf;*/
 
-	while (running)
+	while (ac == 1 && running)
 	{
-		printf("%s", prompt_str);
+		if (isatty(STDIN_FILENO))
+			printf("%s", prompt_str);
 /*		write(STDOUT_FILENO, prompt_str, 10);*/
 		args = read_prompt(&read_count);
 
 		if (read_count < 0)
 		{
-			free_str_array(args);
-			break;
+			/*free_str_array(args);*/
+			running = 0;
 		}
 /*		if (!stat(args[0], &statbuf))*/
-		if (args && *args)
+		else if (args && *args)
 		{
 			if (strcmp(*args, "exit") == 0)
 				running = 0;
