@@ -18,27 +18,23 @@ int main(int ac, char **av, char **env __attribute__((unused)))
 	char *prompt_str = "#cisfun$ ";
 	char **args = NULL, **str_itr;
 	unsigned char running = 1;
-	int exec_status;
+	int exec_status, exit_status = EXIT_SUCCESS;
 	ssize_t read_count = 0;
-/*	struct stat statbuf;*/
 
 	while (ac == 1 && running)
 	{
 		if (isatty(STDIN_FILENO))
 			printf("%s", prompt_str);
-/*		write(STDOUT_FILENO, prompt_str, 10);*/
 		args = read_prompt(&read_count);
 
 		if (read_count < 0)
-		{
-			/*free_str_array(args);*/
 			running = 0;
-		}
-/*		if (!stat(args[0], &statbuf))*/
 		else if (args && *args)
 		{
 			if (strcmp(*args, "exit") == 0)
-				running = 0;
+				exit_status = args[1] ? atoi(args[1]) & 0xFF : EXIT_SUCCESS,
+				free_str_array(args),
+				exit(exit_status);
 			else if (strcmp(*args, "env") == 0)
 			{
 				for (str_itr = environ ; *str_itr ; str_itr++)
