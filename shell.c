@@ -24,23 +24,22 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 
 	while (!exit)
 	{
-/*		printf("%s", prompt_str);*/
-		write(STDOUT_FILENO, prompt_str, 10);
+		printf("%s", prompt_str);
+/*		write(STDOUT_FILENO, prompt_str, 10);*/
 		args = read_prompt(&read_count);
 
-		if (read_count < 0 || !args || !*args)
+		if (read_count < 0)
 		{
 			free_str_array(args);
 			break;
 		}
 /*		if (!stat(args[0], &statbuf))*/
-/*		{*/
+		if (args && *args)
+		{
 			exec_status = exec(args[0], args, environ);
 			if (exec_status < 0)
 				perror(av[0]);
-/*		}*/
-/*		else*/
-			/*	fprintf(stdout, "%s: No such file or directory\n", av[0]);*/
+		}
 		free_str_array(args);
 	}
 	return (0);
