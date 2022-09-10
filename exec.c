@@ -13,19 +13,27 @@
  */
 int exec(char *filepath, char **av, char **env)
 {
-	int wstatus, exec_status;
+	int wstatus = 0;
 	pid_t child;
+	char *path;
 
-	child = fork();
-	if (child == -1)
-		return (-1);
-	if (child == 0)
+	path = get_path(filepath);
+	if (path)
 	{
-		exec_status = execve(filepath, av, env);
-		return (exec_status);
+		child = fork();
+		if (child == -1)
+			return (-1);
+		if (child == 0)
+		{
+			execve(path, av, env);
+			exit(EXIT_FAILURE);
+		}
+		else
+			wait(&wstatus);
 	}
 	else
-		wait(&wstatus);
+		return (2);
 
-	return (1);
+	free(path);
+	return (wstatus);
 }

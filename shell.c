@@ -18,7 +18,7 @@ int main(int ac, char **av, char **env __attribute__((unused)))
 	char *prompt_str = "#cisfun$ ";
 	char **args = NULL, **str_itr;
 	unsigned char running = 1;
-	int exec_status, exit_status = EXIT_SUCCESS;
+	int exit_status = EXIT_SUCCESS;
 	ssize_t read_count = 0;
 
 	while (ac == 1 && running)
@@ -32,7 +32,7 @@ int main(int ac, char **av, char **env __attribute__((unused)))
 		else if (args && *args)
 		{
 			if (strcmp(*args, "exit") == 0)
-				exit_status = args[1] ? atoi(args[1]) & 0xFF : EXIT_SUCCESS,
+				exit_status = args[1] ? atoi(args[1]) & 0xFF : exit_status,
 				free_str_array(args),
 				exit(exit_status);
 			else if (strcmp(*args, "env") == 0)
@@ -42,8 +42,8 @@ int main(int ac, char **av, char **env __attribute__((unused)))
 			}
 			else
 			{
-				exec_status = exec(args[0], args, environ);
-				if (exec_status < 0)
+				exit_status = exec(args[0], args, environ);
+				if (exit_status < 0)
 					perror(av[0]);
 			}
 		}

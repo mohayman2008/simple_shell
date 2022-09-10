@@ -33,20 +33,20 @@ int char_cmp(char c, char *c_set)
  */
 char **get_tokens(char *str, char *delim)
 {
-	char **tokens = NULL, *current, **new_tokens;
+	char **tokens = NULL, *current = str, **new_tokens;
 	size_t size = 0, tokens_itr = 0, len = 0;
 
 	if (!str)
 		return (NULL);
 	delim = !delim ? "" : delim;
-
-	current = str;
-	while (*(current + len))
+	while (1)
 	{
 		if (char_cmp(*(current + len), delim) && !len)
 			current++;
-		else if (char_cmp(*(current + len), delim))
+		else if (char_cmp(*(current + len), delim) || !*(current + len))
 		{
+			if (!len)
+				break;
 			if (tokens_itr + 1 > size)
 			{
 				size += PTR_BUF_SIZE_INC;
@@ -59,17 +59,19 @@ char **get_tokens(char *str, char *delim)
 				tokens = new_tokens;
 			}
 			tokens[tokens_itr] = strndup(current, len);
-			tokens[tokens_itr + 1] = NULL;
 			if (!(tokens[tokens_itr]))
 			{
 				free_str_array(tokens), perror("Getting args error");
 				return (NULL);
 			}
-			tokens_itr++, current += len + 1, len = 0;
+			tokens_itr++, current += len, len = 0;
+			if (!*(current + len))
+				break;
 		}
 		else
 			len++;
 	}
+	tokens[tokens_itr] = NULL;
 	return (tokens);
 }
 
