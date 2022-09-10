@@ -17,14 +17,14 @@ int bulitin_cmd(char **av)
 
 	if (!strcmp(av[0], "setenv"))
 	{
-		if(setenv(av[1], av[2], 1) < 0)
-			perror("setenv error");
+		if(setenv(av[1], av[2], 1) < 0){}
+			/*perror("setenv error");*/
 		return (1);
 	}
 	else if (!strcmp(av[0], "unsetenv"))
 	{
-		if(unsetenv(av[1]) < 0)
-			perror("unsetenv error");
+		if(unsetenv(av[1]) < 0){}
+			/*perror("unsetenv error");*/
 		return (1);
 	}
 	else if (!strcmp(av[0], "env"))
