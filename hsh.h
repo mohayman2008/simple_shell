@@ -24,12 +24,14 @@ typedef struct path_node
 	struct path_node *next;
 } path_t;
 
+/*-----env.c-----*/
 char *_getenv(const char *key);
+char **_getenv_ptr(const char *key);
 void duplicate_env(void);
-void free_str_vector(char **str_vector);
+
+/*-----env_mgmt.c-----*/
 int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *name);
-void print_path(void);
 
 /*-----path.c-----*/
 path_t *build_path_list(void);
@@ -37,15 +39,18 @@ void free_path_list(path_t **path_list);
 char *search_path(char *name);
 char *get_path(char *name);
 
+/*-----io.c-----*/
 int char_cmp(char c, char *c_set);
 char **get_tokens(char *str, char *delim);
 char **read_prompt(ssize_t *read_count);
 
+/*-----exec.c-----*/
 int exec(char *filepath, char **av, char **env);
 
 /*-----errors.c-----*/
 void *error_null(const char *error_prefix);
 
+/*-----free.c-----*/
 void free_str_array(char **str_arr);
 
 #endif /* __hsh_h__ */

@@ -2,33 +2,6 @@
 #include <string.h>
 
 /**
- * _getenv - get an enviroment variable
- * @key: variable name
- *
- * Return: The address of the variable string if it exists or NULL elsewise
- */
-char *_getenv(const char *key)
-{
-	int i = 0, j;
-
-	while (environ[i])
-	{
-		j = 0;
-		while (environ[i][j] && environ[i][j] != '=')
-		{
-			if (!key[j] || environ[i][j] != key[j])
-				break;
-			j++;
-		}
-		if (!key[j] && environ[i][j] == '=')
-			return (environ[i] + j + 1);
-		i++;
-	}
-
-	return (NULL);
-}
-
-/**
  * build_path_list - creates a linked list of the paths in the PATH enviroment
  *			variable
  * Return: pointer to the head of the list or NULL on error
